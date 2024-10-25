@@ -8,7 +8,6 @@ function getComputerChoice() {
     //computerChoice function that will return either rock, paper or scissors
 }
 
-console.log(`Computer chose: ${getComputerChoice()}`)
 
 // Function to get user choice
 function getUserChoice() {
@@ -16,7 +15,7 @@ function getUserChoice() {
 
     // Validate input
     if (userInput === 'rock' || userInput === 'paper' || userInput === 'scissors') {
-        console.log(`You chose: ${userInput}`);
+       
         return userInput; // Return valid choice
     } else {
         console.log("Invalid choice! Please enter rock, paper, or scissors.");
@@ -24,4 +23,30 @@ function getUserChoice() {
     }
 }
 
-console.log(getUserChoice())
+
+let userScore = 0;
+let computerScore = 0;
+let userChoice = getUserChoice();
+let computerChoice = getComputerChoice();
+
+
+function playRound(userChoice, computerChoice) {
+    if (userChoice === computerChoice) {
+        return 'It\'s a tie!';
+    }
+    else if (
+        (userChoice === 'rock' && computerChoice === 'scissors') ||
+        (userChoice === 'paper' && computerChoice === 'rock') ||
+        (userChoice === 'scissors' && computerChoice === 'paper')
+    ) {
+        return 'You win!';
+    } else {
+        return 'Computer wins!';
+    } 
+       
+    }
+
+    console.log(`User choice: ${userChoice}`);
+    console.log(`Computer choice: ${computerChoice}`);
+
+    console.log(playRound(userChoice, computerChoice));
