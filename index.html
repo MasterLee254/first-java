@@ -3,10 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Rock Paper Scissors</title>
+    <style>
+        /* Some basic styling */
+        #container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+    </style>
 </head>
 <body>
-    
+    <h1>Rock Paper Scissors</h1>
+    <div id="container">
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+    </div>
+
+    <div id="result">
+        <p>Score: You - <span id="userScore">0</span> | Computer - <span id="computerScore">0</span></p>
+        <p id="outcome"></p>
+    </div>
 
     <script src="script.js"></script>
 </body>

@@ -1,29 +1,11 @@
-
-
-    /* script.js */
-
+// Function to get computer's choice
 function getComputerChoice() {
     const choices = ['rock', 'paper', 'scissors'];
     const randomIndex = Math.floor(Math.random() * choices.length);
     return choices[randomIndex];
 }
 
-// Function to get user choice
-function getUserChoice() {
-    let userInput = prompt("Enter your choice (rock, paper, scissors):").toLowerCase();
-
-    // Validate input
-    if (userInput === 'rock' || userInput === 'paper' || userInput === 'scissors') {
-        return userInput; // Return valid choice
-    } else {
-        console.log("Invalid choice! Please enter rock, paper, or scissors.");
-        return getUserChoice(); // Ask again if input is invalid
-    }
-}
-
-let userScore = 0;
-let computerScore = 0;
-
+// Function to play one round of Rock Paper Scissors
 function playRound(userChoice, computerChoice) {
     if (userChoice === computerChoice) {
         return 'It\'s a tie!';
@@ -32,33 +14,69 @@ function playRound(userChoice, computerChoice) {
         (userChoice === 'paper' && computerChoice === 'rock') ||
         (userChoice === 'scissors' && computerChoice === 'paper')
     ) {
-        userScore++;
         return 'You win this round!';
     } else {
-        computerScore++;
         return 'Computer wins this round!';
     }
 }
 
-function playGame() {
-    for (let i = 0; i < 5; i++) {
-        let userChoice = getUserChoice();
-        let computerChoice = getComputerChoice();
+// Track scores
+let userScore = 0;
+let computerScore = 0;
 
-        console.log(`User choice: ${userChoice}`);
-        console.log(`Computer choice: ${computerChoice}`);
-        console.log(playRound(userChoice, computerChoice));
+// Get references to elements in the DOM
+const userScoreDisplay = document.getElementById('userScore');
+const computerScoreDisplay = document.getElementById('computerScore');
+const outcomeDisplay = document.getElementById('outcome');
+
+// Function to update the scores and check for a winner
+function updateScore(winner) {
+    if (winner === 'user') {
+        userScore++;
+        userScoreDisplay.textContent = userScore;
+    } else if (winner === 'computer') {
+        computerScore++;
+        computerScoreDisplay.textContent = computerScore;
     }
 
-    console.log(`Final Score: You: ${userScore}, Computer: ${computerScore}`);
-    if (userScore > computerScore) {
-        console.log('You are the overall winner!');
-    } else if (userScore < computerScore) {
-        console.log('Computer is the overall winner!');
-    } else {
-        console.log('It\'s an overall tie!');
+    if (userScore === 5) {
+        outcomeDisplay.textContent = 'You win the game!';
+        resetGame();
+    } else if (computerScore === 5) {
+        outcomeDisplay.textContent = 'Computer wins the game!';
+        resetGame();
     }
 }
 
-// Start the game
-playGame();
+// Reset the game
+function resetGame() {
+    userScore = 0;
+    computerScore = 0;
+    userScoreDisplay.textContent = userScore;
+    computerScoreDisplay.textContent = computerScore;
+    setTimeout(() => {
+        outcomeDisplay.textContent = '';
+    }, 2000);
+}
+
+// Function to handle button clicks
+function handleButtonClick(event) {
+    const userChoice = event.target.id; // Get the id of the button (rock, paper, or scissors)
+    const computerChoice = getComputerChoice();
+    const result = playRound(userChoice, computerChoice);
+    
+    // Display the result of the round
+    outcomeDisplay.textContent = `You chose ${userChoice}, Computer chose ${computerChoice}. ${result}`;
+    
+    // Update scores
+    if (result === 'You win this round!') {
+        updateScore('user');
+    } else if (result === 'Computer wins this round!') {
+        updateScore('computer');
+    }
+}
+
+// Add event listeners to each button
+document.getElementById('rock').addEventListener('click', handleButtonClick);
+document.getElementById('paper').addEventListener('click', handleButtonClick);
+document.getElementById('scissors').addEventListener('click', handleButtonClick);
